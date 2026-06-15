@@ -12,6 +12,7 @@
 #include "ps.h"
 #include "sw.h"
 #include "sw2.h"
+#include "pbp.h"
 
 typedef void (*bt_hid_init_t)(struct bt_dev *device);
 typedef void (*bt_hid_hdlr_t)(struct bt_dev *device, struct bt_hci_pkt *bt_hci_acl_pkt, uint32_t len);
@@ -53,6 +54,7 @@ static const struct bt_name_type bt_name_type[] = {
     {"BlueN64 Gamepad", BT_HID_GENERIC, BT_SUBTYPE_DEFAULT, BIT(BT_QUIRK_BLUEN64_N64)},
     {"Hyperkin Pad", BT_SW, BT_SW_HYPERKIN_ADMIRAL, 0},
     {"OUYA Game Controller", BT_HID_GENERIC, BT_SUBTYPE_DEFAULT, BIT(BT_QUIRK_OUYA)},
+    {"Pokemon PBP", BT_PBP, BT_SUBTYPE_DEFAULT, 0},
     {"DeviceName", BT_SW2, BT_SUBTYPE_DEFAULT, 0},
 #endif
 };
@@ -64,6 +66,7 @@ static const bt_hid_init_t bt_hid_init_list[BT_TYPE_MAX] = {
     bt_hid_ps_init, /* BT_PS */
     bt_hid_sw_init, /* BT_SW */
     bt_hid_sw2_init, /* BT_SW2 */
+    NULL,               /* BT_PBP */
 };
 
 static const bt_hid_hdlr_t bt_hid_hdlr_list[BT_TYPE_MAX] = {
@@ -73,6 +76,7 @@ static const bt_hid_hdlr_t bt_hid_hdlr_list[BT_TYPE_MAX] = {
     bt_hid_ps_hdlr, /* BT_PS */
     bt_hid_sw_hdlr, /* BT_SW */
     NULL, /* BT_SW2 */
+    NULL,               /* BT_PBP */
 };
 
 static const bt_hid_cmd_t bt_hid_feedback_list[BT_TYPE_MAX] = {
@@ -82,6 +86,7 @@ static const bt_hid_cmd_t bt_hid_feedback_list[BT_TYPE_MAX] = {
     bt_hid_cmd_ps_set_conf, /* BT_PS */
     bt_hid_cmd_sw_set_conf, /* BT_SW */
     bt_hid_cmd_sw2_out, /* BT_SW2 */
+    NULL,               /* BT_PBP */
 };
 
 void bt_hid_set_type_flags_from_name(struct bt_dev *device, const char* name) {
